@@ -3,44 +3,64 @@ const menuEmail = document.querySelector('.navbar-email');
 const desktopMenu = document.querySelector('.desktop-menu');
 const hamIcon = document.querySelector('.menu');
 const mobileMenu = document.querySelector('.mobile-menu');
-const cartIcon = document.querySelector('.navbar-shopping-cart')
+const cartIcon = document.querySelector('.navbar-shopping-cart');
+const closeProductDetailsIcon = document.querySelector('.product-detail-close');
 const shoppingCart = document.querySelector('#shoppingCartContainer');
 const cardsContainer = document.querySelector('.cards-container');
+const productDetailsContainer = document.querySelector('#productDetails');
 
 // Adds function for click event to the nvigation items
 menuEmail.addEventListener('click', toggleDesktopMenu);
 hamIcon.addEventListener('click', toggleMobileMenu);
-cartIcon.addEventListener('click', toggleProductInfo);
+cartIcon.addEventListener('click', toggleCartInfo);
+closeProductDetailsIcon.addEventListener('click', closeProductDetailsAside);
 
 // Toggle inactive class on class list of the email link on header
 function toggleDesktopMenu () {
-    let productAsideClosed = shoppingCart.classList.contains('inactive');
-    if (!productAsideClosed) {
-        productAside.classList.add('inactive')
+    let cartAsideClosed = shoppingCart.classList.contains('inactive');
+    if (!cartAsideClosed) {
+        shoppingCart.classList.add('inactive')
     }
     desktopMenu.classList.toggle('inactive');
 }
 
 // Toggle inactive class on mobile menu
 function toggleMobileMenu () {
-    let productAsideClosed = shoppingCart.classList.contains('inactive');
-    if(!productAsideClosed) {
-        productAside.classList.add('inactive')
+    let cartAsideClosed = shoppingCart.classList.contains('inactive');
+    if(!cartAsideClosed) {
+        shoppingCart.classList.add('inactive')
     }
+    closeProductDetailsAside();
     mobileMenu.classList.toggle('inactive');
 }
 
 // Toggle inactive class on shoping cart
-function toggleProductInfo () {
+function toggleCartInfo () {
     let mobileMenuClosed = mobileMenu.classList.contains('inactive');
     let desktopMenuClosed = desktopMenu.classList.contains('inactive');
+    let productDetailsAsideClosed = productDetailsContainer.classList.contains('inactive');
+
     if (!mobileMenuClosed) {
         mobileMenu.classList.add('inactive')
     }
     if (!desktopMenuClosed) {
         desktopMenu.classList.add('inactive')
     }
+    if(!productDetailsAsideClosed) {
+        productDetailsContainer.classList.add('inactive');
+    }
     shoppingCart.classList.toggle('inactive');
+}
+
+// Open product details aside
+function openProductDetailsAside () {
+    shoppingCart.classList.add('inactive');
+    productDetailsContainer.classList.remove('inactive');
+}
+
+// Close product details aside
+function closeProductDetailsAside () {
+    productDetailsContainer.classList.add('inactive');
 }
 
 // Product list
@@ -71,6 +91,7 @@ function renderProducts (arr) {
 
         const productImage = document.createElement('img');
         productImage.setAttribute('src', product.image);
+        productImage.addEventListener('click', openProductDetailsAside);
 
         const productInfo = document.createElement('div');
         productInfo.classList.add('product-info');
